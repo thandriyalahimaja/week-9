@@ -19,8 +19,9 @@ services:
       - key: CLIENT_ORIGINS
         sync: false
 
-  - type: static
+  - type: web
     name: blog-platform-frontend
+    runtime: static
     rootDir: frontend
     buildCommand: npm install && npm run build
     staticPublishPath: dist
