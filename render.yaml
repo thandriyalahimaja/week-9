@@ -13,7 +13,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DB_URL
-        value: "mongodb+srv://<username>:<password>@<cluster-url>/<database>?retryWrites=true&w=majority"
+        sync: false
       - key: JWT_SECRET
         sync: false
       - key: CLIENT_ORIGINS
