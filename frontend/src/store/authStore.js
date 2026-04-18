@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import axios from "axios";
+import { API_BASE } from "../utils/apiBase";
 
 export const useAuth = create((set) => ({
   currentUser: null,
@@ -16,7 +17,7 @@ export const useAuth = create((set) => ({
         role: userCredWithRole?.role?.trim().toUpperCase(),
       };
       //make api call
-      let res = await axios.post("http://localhost:3000/common-api/authenticate", payload, { withCredentials: true });
+      let res = await axios.post(`${API_BASE}/common-api/authenticate`, payload, { withCredentials: true });
       // console.log("res is ", res);
       //update state
       set({
@@ -40,7 +41,7 @@ export const useAuth = create((set) => ({
       //set loading state
       set({ loading: true, error: null });
       //make logout api req
-      await axios.get("http://localhost:3000/common-api/logout", { withCredentials: true });
+      await axios.get(`${API_BASE}/common-api/logout`, { withCredentials: true });
       //update state
       set({
         loading: false,
@@ -60,7 +61,7 @@ export const useAuth = create((set) => ({
   checkAuth: async () => {
     try {
       set({ loading: true });
-      const res = await axios.get("http://localhost:3000/common-api/check-auth", { withCredentials: true });
+      const res = await axios.get(`${API_BASE}/common-api/check-auth`, { withCredentials: true });
 
       if (!res.data?.authenticated) {
         set({

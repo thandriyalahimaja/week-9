@@ -12,9 +12,27 @@ import { commonRouter } from './APIs/commonApi.js'
 config() //process.env
 //create express application
 const app=exp()
+const isProduction = process.env.NODE_ENV === "production";
+const allowedOrigins = (process.env.CLIENT_ORIGINS || process.env.CORS_ORIGINS || "")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 //add cors middleware
 app.use(cors({
-    origin:"http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+
+      if (!isProduction && origin === "http://localhost:5173") {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      return callback(new Error("CORS not allowed for this origin"));
+    },
     credentials:true
 }))
 //add body parser middleware
@@ -32,7 +50,8 @@ const connectDB=async()=>{
     await connect(process.env.DB_URL)
     console.log("DB connection success")
     //start server
-    app.listen(process.env.PORT,()=>console.log("server listening on 3000"))
+    const port = process.env.PORT || 3000;
+    app.listen(port,()=>console.log(`server listening on ${port}`))
     }catch(err){
         console.log("DB connection failed",err)
     }

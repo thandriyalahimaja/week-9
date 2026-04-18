@@ -8,6 +8,13 @@ import { config } from 'dotenv'
 export const commonRouter=exp.Router()
 config();
 
+const isProduction = process.env.NODE_ENV === "production";
+const cookieOptions = {
+    httpOnly: true,
+    sameSite: isProduction ? "none" : "lax",
+    secure: isProduction,
+};
+
 //login 
 commonRouter.post("/authenticate",async(req,res)=>{
     //authenticate author(public)
@@ -18,12 +25,7 @@ commonRouter.post("/authenticate",async(req,res)=>{
         let {token,user}=await authenticate(userCred);
         //save token in cookie
         res.cookie("token",token,
-            {
-                httpOnly:true,
-                sameSite:"lax",
-                secure:false,
-                
-            });
+            cookieOptions);
         //send response
         res.status(200).json({message:"login success",payload:user});
     })
@@ -54,11 +56,7 @@ commonRouter.get("/logout",async(req,res)=>{
     //logout for user author,and admin
     //clear the cookie named 'token'
     res.clearCookie("token",
-    {
-        httpOnly:true,//must match original settings
-        sameSite:"lax",//must match original settings
-        secure:false,//must match original settings
-    });
+    cookieOptions);
     res.status(200).json({message:"logout success"});
     })
 

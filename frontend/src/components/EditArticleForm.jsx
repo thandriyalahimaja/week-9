@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useAuth } from "../store/authStore";
+import { API_BASE } from "../utils/apiBase";
 
 import {
   formCard,
@@ -50,7 +51,7 @@ function EditArticle() {
     try {
       setLoading(true);
       await axios.put(
-        "http://localhost:3000/author-api/articles",
+        `${API_BASE}/author-api/articles`,
         {
           articleId: id,
           title: data.title,

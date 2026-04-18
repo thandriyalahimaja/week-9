@@ -15,6 +15,7 @@ import {
   loadingClass,
 } from "../styles/common";
 import { useAuth } from "../store/authStore";
+import { API_BASE } from "../utils/apiBase";
 
 function WriteArticle() {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ function WriteArticle() {
     articleObj.author=currentUser._id;
     try {
       await axios.post(
-        "http://localhost:3000/author-api/articles",
+        `${API_BASE}/author-api/articles`,
         articleObj,
         { withCredentials: true }
       );
