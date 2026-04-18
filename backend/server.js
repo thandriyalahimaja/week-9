@@ -44,16 +44,26 @@ app.use('/user-api',userRoute)
 app.use('/author-api',authorRoute)
 app.use('/admin-api',adminRoute)
 app.use("/common-api",commonRouter)
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "backend is running" });
+});
+
 //connect to db
+const port = process.env.PORT || 3000;
+
+app.listen(port,()=>console.log(`server listening on ${port}`))
+
 const connectDB=async()=>{
+  if (!process.env.DB_URL) {
+    console.warn("DB_URL is missing; backend will start without database connectivity");
+    return;
+  }
     try{
     await connect(process.env.DB_URL)
     console.log("DB connection success")
-    //start server
-    const port = process.env.PORT || 3000;
-    app.listen(port,()=>console.log(`server listening on ${port}`))
     }catch(err){
-        console.log("DB connection failed",err)
+    console.log("DB connection failed",err)
     }
 }
 connectDB()
