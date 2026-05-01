@@ -8,7 +8,6 @@ export const verifyToken=(...allowedRoles)=>{
     //read token from req
     try{
     const token=req.cookies.token
-    console.log("token:",token)
     if(token===undefined){
         return res.status(400).json({message:"unauthorized req plz login"});
     }
