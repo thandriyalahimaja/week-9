@@ -1,6 +1,25 @@
 # Week 9 – Blog Platform
 
 ## Project Overview
+Purpose:
+
+Learn full MERN stack architecture
+Implement JWT authentication
+Understand role-based authorization
+Build secure APIs
+Learn MongoDB integration
+Practice file uploads using Multer & Cloudinary
+Manage articles, comments, and users
+
+Roles Purpose:
+
+Admin → Manage users and platform
+Author → Create and manage articles
+User → Read and interact with blogs
+
+Main Goal:
+
+To develop a real-world blogging platform with secure authentication, multiple user roles, and complete frontend-backend integration.
 
 This project is a full-stack MERN Blog Platform developed using:
 
